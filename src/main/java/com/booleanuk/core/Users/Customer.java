@@ -12,8 +12,13 @@ public class Customer {
         this.id = UUID.randomUUID().toString();
     }
 
-    public void createAccount(int id, String type, int balance) {
-        this.account = new Account(type, balance);
+    public void createAccount(String type, int balance, String branch) {
+        this.account = new Account(type, balance, branch);
+    }
+
+    // Mainly for testing interaction , Customer -> Account -> BankManager
+    public void createAccount(String type, int balance, String branch, BankManager bm) {
+        this.account = new Account(type, balance, branch, bm);
     }
 
     public void viewBankStatements() {
@@ -27,4 +32,19 @@ public class Customer {
     public void withdrawFromAccount(int amount) {
         this.account.withdraw(amount);
     }
+
+    public boolean requestOverdraft(int amount) {
+        return account.requestOverdraft(amount);
+    }
+
+    public void sendStatementAsSMS(String num) {
+        System.out.println("\n\nSend to number: " + num);
+        System.out.println("Sending SMS...");
+        System.out.println("...");
+        System.out.println("...");
+        System.out.println("\nIncoming...");
+        account.genereateStatementForSMS();
+        System.out.println("\n");
+    }
+
 }

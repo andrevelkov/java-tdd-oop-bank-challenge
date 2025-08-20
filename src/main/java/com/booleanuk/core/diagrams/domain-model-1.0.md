@@ -19,14 +19,14 @@
 
 # Extensions 
 
-| **Class**       | **Member**                                                     | **Method**                        | **Scenario**                                                                       | **Output**                                             |
-|-----------------|----------------------------------------------------------------|-----------------------------------|------------------------------------------------------------------------------------|--------------------------------------------------------|
-| **Engineer**    | `List<Account> accounts`                                       | `getAccountBalance()`             | As an engineer, I want account balances to be calculated from transaction history. | Returns balance amount                                 |
-| **BankManager** | `List<Branch> branches`                                        | `-`                               | As a bank manager, I want accounts to be associated with specific branches.        | **`BankManager` contains a list of `Branch` objects.** |
-|                 |                                                                | `verifyOverdraftRequest(account)` | As a bank manager, I want to approve/reject overdraft requests.                    | `boolean`                                              |
-| **Customer**    | `-`                                                            | `requestOverdraft(account)`       | As a customer, I want to request an overdraft on my account.                       | `boolean`                                              |
-|                 |                                                                |                                   |                                                                                    |                                                        |
-| **Branch**      | `branchId`, `branchName`, `location`, `List<Account> accounts` | `-`                               | As a bank manager, I want accounts to be associated with specific branches.        |                                                        |
+| **Class**       | **Member**                                                  | **Method**                        | **Scenario**                                                                       | **Output**                                             |
+|-----------------|-------------------------------------------------------------|-----------------------------------|------------------------------------------------------------------------------------|--------------------------------------------------------|
+| **Engineer**    | `List<Account> accounts`                                    | `getAccountBalance()`             | As an engineer, I want account balances to be calculated from transaction history. | Returns balance amount                                 |
+| **BankManager** | `List<Branch> branches`                                     | `-`                               | As a bank manager, I want accounts to be associated with specific branches.        | **`BankManager` contains a list of `Branch` objects.** |
+|                 |                                                             | `verifyOverdraftRequest(account)` | As a bank manager, I want to approve/reject overdraft requests.                    | `boolean`                                              |
+| **Customer**    | `-`                                                         | `requestOverdraft(account)`       | As a customer, I want to request an overdraft on my account.                       | `boolean`                                              |
+|                 |                                                             |                                   |                                                                                    |                                                        |
+| **Branch**      | `branchId`, `location`, `List<Account> accounts` | `-`                               | As a bank manager, I want accounts to be associated with specific branches.        |                                                        |
 
 
 // Notes:

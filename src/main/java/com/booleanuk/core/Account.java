@@ -1,31 +1,46 @@
 package com.booleanuk.core;
 
-import java.text.SimpleDateFormat;
+import com.booleanuk.core.Users.BankManager;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 public class Account {
-    private String accountId;
-    private int balance = 0;
-    private String accountType;
     private List<Transaction> transactionList = new ArrayList<>();
+    private BankManager bm;
+    private String accountId;
+    private String accountType;
+    private String branch;
+    private int balance = 0;
 
-    public Account(String accountType, int balance) {
+    public Account(String accountType, int balance, String branch, BankManager bm) {
         this.accountId = UUID.randomUUID().toString();
+        this.branch = branch;
+        this.bm = bm;
         setAccountType(accountType);
+        checkBalance(balance);
+    }
 
-        if (balance < 0)
-            throw new IllegalArgumentException("Initial balance cant be less than 0");
-        else
-            setBalance(balance);
+    public Account(String accountType, int balance, String branch) {
+        this.accountId = UUID.randomUUID().toString();
+        this.branch = branch;
+        setAccountType(accountType);
+        checkBalance(balance);
     }
 
     public Account(String accountId, String accountType) {
         this.accountId = UUID.randomUUID().toString();
         setAccountType(accountType);
+        checkBalance(balance);
+    }
+
+    public void checkBalance(int balance) {
+        if (balance < 0)
+            throw new IllegalArgumentException("Initial balance cant be less than 0");
+        else
+            setBalance(balance);
     }
 
     public int deposit(int amount) {
@@ -54,16 +69,12 @@ public class Account {
     }
 
     public void addTransaction(int amount, String type) {
+
         if (!type.toLowerCase().trim().equals("debit") && !type.toLowerCase().trim().equals("credit")) {
             type = "unknown";
         }
 
         LocalDate today = LocalDate.now();
-//        System.out.println(today);
-//        Date today = new Date();
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//        String formattedDate = sdf.format(today);
-
         Transaction transaction = new Transaction(amount, this.balance, today, type); // amount, date, type
         transactionList.add(transaction);
     }
@@ -81,7 +92,30 @@ public class Account {
         System.out.println("\n");
     }
 
+    public void genereateStatementForSMS() {
+        System.out.printf("%-10s %-10s %-10s %-10s\n", "Date", "Credit", "Debit", "Balance");
+        for (Transaction t : transactionList) {
+            if (t.getType().equals("debit")) {
+                System.out.printf("%-10s %-10s %-10s %-10s\n", t.getDate().getMonth(), " ", t.getAmount(), t.getBalance());
+            } else if (t.getType().equals("credit")) {
+                System.out.printf("%-10s %-10s %-10s %-10s\n", t.getDate().getMonth(), t.getAmount(), " ", t.getBalance());
+            }
+        }
+    }
+
+    public boolean requestOverdraft(int amount) {
+        return bm.verifyOverdraftRequest(this, amount);
+    }
+
     // GETTERS & SETTERS
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
 
     public String getAccountId() {
         return accountId;

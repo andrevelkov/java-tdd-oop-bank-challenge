@@ -12,7 +12,7 @@ public class EngineerTest {
     @Test
     public void asEngineerCalculateAllHistoryTransactions() {
 
-        Account account = new Account("current", 1000);
+        Account account = new Account("current", 1000, "rome");
         account.deposit(500);
         account.withdraw(300);
         account.deposit(150);
@@ -22,6 +22,6 @@ public class EngineerTest {
         list.add(account);
         Engineer e = new Engineer(list);
 
-        assertEquals(900, e.getAccountBalance(1)); // shall be 900
+        assertEquals(900, e.getAccountBalance(account.getAccountId())); // shall be 900
     }
 }

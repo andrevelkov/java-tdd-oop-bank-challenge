@@ -16,10 +16,10 @@ public class Engineer {
         this.accountList = list;
     }
 
-    public int getAccountBalance(int id) {
+    public int getAccountBalance(String id) {
         Account account = null;
         for (Account a: accountList)
-            if (a.getAccountId() == 1)
+            if (a.getAccountId().equals(id))
                 account = a;
 
         List<Transaction> list = null;

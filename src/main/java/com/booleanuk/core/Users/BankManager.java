@@ -15,10 +15,33 @@ public class BankManager {
         this.id = UUID.randomUUID().toString();
     }
 
-    // Approve if within balance range, if above double balance, deny
+    // True if within balance range, else deny
     public Boolean verifyOverdraftRequest(Account account, int amount) {
-
-        return null;
+        if (amount < 0) {
+            return false;
+        } else {
+            System.out.println("Approved Overdraft.");
+            return amount <= account.getBalance();
+        }
     }
 
+    public Branch addBranch(String branchLocation) {
+        Branch branch = new Branch(branchLocation);
+        branches.add(branch);
+
+        return branch;
+    }
+
+    public void addAccountToBranch(Account account) {
+        for (Branch branch : branches) {
+            if (account.getBranch().equalsIgnoreCase(branch.getLocation())) {
+                branch.addAccount(account);
+                return;
+            }
+        }
+    }
+
+    public List<Branch> getBranches() {
+        return this.branches;
+    }
 }
