@@ -17,12 +17,10 @@ public class BankManager {
 
     // True if within balance range, else deny
     public Boolean verifyOverdraftRequest(Account account, int amount) {
-        if (amount < 0) {
+        if (amount < 0)
             return false;
-        } else {
-            System.out.println("Approved Overdraft.");
-            return amount <= account.getBalance();
-        }
+
+        return amount <= account.getBalance();
     }
 
     public Branch addBranch(String branchLocation) {

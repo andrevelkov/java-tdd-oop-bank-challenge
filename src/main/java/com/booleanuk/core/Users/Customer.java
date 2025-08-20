@@ -43,7 +43,7 @@ public class Customer {
         System.out.println("...");
         System.out.println("...");
         System.out.println("\nIncoming...");
-        account.genereateStatementForSMS();
+        account.generateStatementForSMS();
         System.out.println("\n");
     }
 

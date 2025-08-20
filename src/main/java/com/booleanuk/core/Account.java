@@ -15,6 +15,7 @@ public class Account {
     private String branch;
     private int balance = 0;
 
+    // Constructor with BankManager (mostly for test and lack of service layer); ! or account has a manager
     public Account(String accountType, int balance, String branch, BankManager bm) {
         this.accountId = UUID.randomUUID().toString();
         this.branch = branch;
@@ -23,6 +24,7 @@ public class Account {
         checkBalance(balance);
     }
 
+    // Constructor with balance
     public Account(String accountType, int balance, String branch) {
         this.accountId = UUID.randomUUID().toString();
         this.branch = branch;
@@ -30,6 +32,7 @@ public class Account {
         checkBalance(balance);
     }
 
+    // Constructor with no initial balance
     public Account(String accountId, String accountType) {
         this.accountId = UUID.randomUUID().toString();
         setAccountType(accountType);
@@ -62,10 +65,10 @@ public class Account {
             balance -= amount;
             addTransaction(amount, "credit");
             return amount;
-        } else {
-            System.out.println("Cant withdraw amount, balance too low..");
-            return 0;
         }
+
+        System.out.println("Cant withdraw amount, balance too low..");
+        return 0;
     }
 
     public void addTransaction(int amount, String type) {
@@ -81,7 +84,6 @@ public class Account {
 
     public void generateBankStatement() {
         System.out.printf("\n%-20s %-10s %-10s %-10s\n", "Date", "Credit", "Debit", "Balance");
-
         for (Transaction t : transactionList) {
             if (t.getType().equals("debit")) {
                 System.out.printf("%-20s %-10s %-10s %-10s\n", t.getDate(), " ", t.getAmount(), t.getBalance());
@@ -92,7 +94,7 @@ public class Account {
         System.out.println("\n");
     }
 
-    public void genereateStatementForSMS() {
+    public void generateStatementForSMS() {
         System.out.printf("%-10s %-10s %-10s %-10s\n", "Date", "Credit", "Debit", "Balance");
         for (Transaction t : transactionList) {
             if (t.getType().equals("debit")) {

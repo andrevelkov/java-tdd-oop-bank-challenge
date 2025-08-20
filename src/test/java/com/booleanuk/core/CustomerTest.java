@@ -4,8 +4,7 @@ import com.booleanuk.core.Users.BankManager;
 import com.booleanuk.core.Users.Customer;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CustomerTest {
 
@@ -29,6 +28,11 @@ public class CustomerTest {
         Customer c = new Customer();
         c.createAccount("current", 500, "rome", bm);
         assertTrue(c.requestOverdraft(500));
+        assertTrue(c.requestOverdraft(499));
+        assertTrue(c.requestOverdraft(1));
+        assertFalse(c.requestOverdraft(1000));
+        assertFalse(c.requestOverdraft(1001));
+        assertFalse(c.requestOverdraft(-151));
     }
 
     @Test       // Testing printout of method
