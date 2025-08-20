@@ -1,35 +1,79 @@
 package com.booleanuk.core;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 
 public class Account {
     private int accountId;
     private int balance = 0;
     private String accountType;
-    private HashMap<Date, Transaction> transactionHashMap = null;
-
-    public Account(int accountId, String accountType) {
-        this.accountId = accountId;
-        this.accountType = accountType;
-    }
+    private List<Transaction> transactionList = new ArrayList<>();
 
     public Account(int accountId, String accountType, int balance) {
-        this.accountId = accountId;
-        this.accountType = accountType;
-        this.balance = balance;
+        setAccountId(accountId);
+        setAccountType(accountType);
+
+        if (balance < 0)
+            throw new IllegalArgumentException("Initial balance cant be less than 0");
+        else
+            setBalance(balance);
     }
 
-    public Boolean deposit(int amount) {
-        return null;
+    public Account(int accountId, String accountType) {
+        setAccountId(accountId);
+        setAccountType(accountType);
     }
 
-    public Boolean withdraw(int amount) {
-        return null;
+    public int deposit(int amount) {
+        if (amount <= 0){
+            System.out.println("Deposit must be larger than 0..");
+            return 0;
+        }
+        addTransaction(amount, "debit");
+        return this.balance += amount;
     }
 
-    public void addTransaction(int amount) {
+    public int withdraw(int amount) {
+        if (amount < 0) {
+            System.out.println("Cant withdraw a negative value..");
+            return 0;
+        }
 
+        if (this.balance >= amount) {
+            balance -= amount;
+            addTransaction(amount, "credit");
+            return amount;
+        } else {
+            System.out.println("Cant withdraw amount, balance too low..");
+            return 0;
+        }
+    }
+
+    public void addTransaction(int amount, String type) {
+        if (!type.toLowerCase().trim().equals("debit") && !type.toLowerCase().trim().equals("credit")) {
+            type = "unknown";
+        }
+        Date today = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = sdf.format(today);
+
+        Transaction transaction = new Transaction(amount, formattedDate, type); // amount, date, type
+        transactionList.add(transaction);
+    }
+
+    public void generateBankStatement() {
+        System.out.printf("%-20s %-10s %-10s %-10s\n", "Date", "Credit", "Debit", "Balance");
+
+        for (Transaction t : transactionList) {
+            if (t.getType().equals("debit")) {
+                System.out.printf("%-20s %-10s %-10s %-10s\n", t.getDate(), " ", t.getAmount(), this.getBalance());
+            } else if (t.getType().equals("credit")) {
+                System.out.printf("%-20s %-10s %-10s %-10s\n", t.getDate(), t.getAmount(), " ", this.getBalance());
+            }
+        }
     }
 
     // GETTERS & SETTERS
@@ -55,19 +99,21 @@ public class Account {
     }
 
     public void setAccountType(String accountType) {
-        this.accountType = accountType;
+        switch (accountType) {
+            case "savings", "current":
+                this.accountType = accountType;
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected value: " + accountType);
+        }
     }
 
-    public HashMap<Date, Transaction> getTransactionHashMap() {
-        return transactionHashMap;
+    public List<Transaction> getTransactionList() {
+        return transactionList;
     }
 
-    public void setTransactionHashMap(HashMap<Date, Transaction> transactionHashMap) {
-        this.transactionHashMap = transactionHashMap;
-    }
-
-    public void generateBankStatement() {
-
+    public void setTransactionList(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
     }
 
 }
