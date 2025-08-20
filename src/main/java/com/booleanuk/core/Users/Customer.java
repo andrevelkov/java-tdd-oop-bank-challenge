@@ -1,4 +1,6 @@
-package com.booleanuk.core;
+package com.booleanuk.core.Users;
+
+import com.booleanuk.core.Account;
 
 import java.util.UUID;
 
@@ -11,7 +13,7 @@ public class Customer {
     }
 
     public void createAccount(int id, String type, int balance) {
-        this.account = new Account(1, type, balance);
+        this.account = new Account(type, balance);
     }
 
     public void viewBankStatements() {

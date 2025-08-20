@@ -10,16 +10,16 @@ public class AccountTest {
 
     @Test
     public void testCreateCurrentAccountWithDataPassVerifications() {
-        Account acc = new Account(1, "savings", 500);
+        Account acc = new Account("savings", 500);
         assertEquals("savings", acc.getAccountType());
         assertEquals(500, acc.getBalance());
         assertThrows(IllegalArgumentException.class, () -> acc.setAccountType("test"));
-        assertThrows(IllegalArgumentException.class, () -> new Account(2, "current", -500));
+        assertThrows(IllegalArgumentException.class, () -> new Account("current", -500));
     }
 
     @Test
     public void depositAndUpdateAccountBalance() {
-        Account acc = new Account(1, "savings", 444);
+        Account acc = new Account("savings", 444);
 
         assertEquals(5444, acc.deposit(5000));
         assertEquals(5444, acc.getBalance());
@@ -31,7 +31,7 @@ public class AccountTest {
 
     @Test
     public void withdrawAndUpdateAccountBalance() {
-        Account acc = new Account(1, "savings", 444);
+        Account acc = new Account("savings", 444);
 
         assertEquals(400 ,acc.withdraw(400));
         assertEquals(44, acc.getBalance());
@@ -42,7 +42,7 @@ public class AccountTest {
 
     @Test
     public void withdrawLessThanBalance() {
-        Account acc = new Account(1, "savings", 444);
+        Account acc = new Account("savings", 444);
 
         assertEquals(0, acc.withdraw(1000));
         assertEquals(0, acc.withdraw(-1000));
@@ -55,7 +55,7 @@ public class AccountTest {
 
     @Test
     public void createTransaction() {
-        Account acc = new Account(1, "savings", 500);
+        Account acc = new Account("savings", 500);
         acc.addTransaction(500, ""); // unknown type
         acc.deposit(300); // deposit = debit
 

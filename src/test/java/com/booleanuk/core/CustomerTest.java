@@ -1,5 +1,6 @@
 package com.booleanuk.core;
 
+import com.booleanuk.core.Users.Customer;
 import org.junit.jupiter.api.Test;
 
 public class CustomerTest {

@@ -1,16 +1,17 @@
 package com.booleanuk.core;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
 public class Transaction {
     private String id;
     private int amount;
-    private String date;
+    private LocalDate date;
     private String type;
     private int balance;
 
-    public Transaction(int amount, int balance, String date, String type) {
+    public Transaction(int amount, int balance, LocalDate date, String type) {
         this.id = UUID.randomUUID().toString();
         this.amount = amount;
         this.balance = balance;
@@ -38,11 +39,11 @@ public class Transaction {
         this.type = type;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return this.date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

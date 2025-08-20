@@ -5,15 +5,16 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class Account {
-    private int accountId;
+    private String accountId;
     private int balance = 0;
     private String accountType;
     private List<Transaction> transactionList = new ArrayList<>();
 
-    public Account(int accountId, String accountType, int balance) {
-        setAccountId(accountId);
+    public Account(String accountType, int balance) {
+        this.accountId = UUID.randomUUID().toString();
         setAccountType(accountType);
 
         if (balance < 0)
@@ -22,8 +23,8 @@ public class Account {
             setBalance(balance);
     }
 
-    public Account(int accountId, String accountType) {
-        setAccountId(accountId);
+    public Account(String accountId, String accountType) {
+        this.accountId = UUID.randomUUID().toString();
         setAccountType(accountType);
     }
 
@@ -56,16 +57,19 @@ public class Account {
         if (!type.toLowerCase().trim().equals("debit") && !type.toLowerCase().trim().equals("credit")) {
             type = "unknown";
         }
-        Date today = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = sdf.format(today);
 
-        Transaction transaction = new Transaction(amount, this.balance, formattedDate, type); // amount, date, type
+        LocalDate today = LocalDate.now();
+//        System.out.println(today);
+//        Date today = new Date();
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        String formattedDate = sdf.format(today);
+
+        Transaction transaction = new Transaction(amount, this.balance, today, type); // amount, date, type
         transactionList.add(transaction);
     }
 
     public void generateBankStatement() {
-        System.out.printf("%-20s %-10s %-10s %-10s\n", "Date", "Credit", "Debit", "Balance");
+        System.out.printf("\n%-20s %-10s %-10s %-10s\n", "Date", "Credit", "Debit", "Balance");
 
         for (Transaction t : transactionList) {
             if (t.getType().equals("debit")) {
@@ -74,15 +78,16 @@ public class Account {
                 System.out.printf("%-20s %-10s %-10s %-10s\n", t.getDate(), t.getAmount(), " ", t.getBalance());
             }
         }
+        System.out.println("\n");
     }
 
     // GETTERS & SETTERS
 
-    public int getAccountId() {
+    public String getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(int accountId) {
+    public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
 
