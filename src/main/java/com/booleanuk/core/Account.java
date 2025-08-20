@@ -60,7 +60,7 @@ public class Account {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = sdf.format(today);
 
-        Transaction transaction = new Transaction(amount, formattedDate, type); // amount, date, type
+        Transaction transaction = new Transaction(amount, this.balance, formattedDate, type); // amount, date, type
         transactionList.add(transaction);
     }
 
@@ -69,9 +69,9 @@ public class Account {
 
         for (Transaction t : transactionList) {
             if (t.getType().equals("debit")) {
-                System.out.printf("%-20s %-10s %-10s %-10s\n", t.getDate(), " ", t.getAmount(), this.getBalance());
+                System.out.printf("%-20s %-10s %-10s %-10s\n", t.getDate(), " ", t.getAmount(), t.getBalance());
             } else if (t.getType().equals("credit")) {
-                System.out.printf("%-20s %-10s %-10s %-10s\n", t.getDate(), t.getAmount(), " ", this.getBalance());
+                System.out.printf("%-20s %-10s %-10s %-10s\n", t.getDate(), t.getAmount(), " ", t.getBalance());
             }
         }
     }

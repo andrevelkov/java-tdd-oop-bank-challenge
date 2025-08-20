@@ -8,12 +8,18 @@ public class Transaction {
     private int amount;
     private String date;
     private String type;
+    private int balance;
 
-    public Transaction(int amount, String date, String type) {
+    public Transaction(int amount, int balance, String date, String type) {
         this.id = UUID.randomUUID().toString();
         this.amount = amount;
+        this.balance = balance;
         this.date = date;
         this.type = type;
+    }
+
+    public int getBalance() {
+        return this.balance;
     }
 
     public String getId() {
